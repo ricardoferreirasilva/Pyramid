@@ -8,16 +8,20 @@ class Stack
                 public Stack: nat ==> Stack
                 Stack(c) == (capacity := c; return self)
                 post contents = [] and capacity = c;
+                
                 public clear: () ==> ()
                 clear() == contents := [];
+                
                 public push: int ==> ()
                 push(x) == contents := [x] ^ contents
                 pre len contents < capacity
                 post contents = [x] ^ contents~;
+                
                 public pop: () ==> ()
                 pop() == contents := tl contents
                 pre contents <> []
                 post contents = tl contents~;
+                
                 public top: () ==> int
                 top() == return hd contents
                 pre contents <> []
