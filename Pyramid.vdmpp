@@ -1,0 +1,23 @@
+class Pyramid
+instance variables
+								val: nat;
+                left: Pyramid;
+                right: Pyramid;       
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+operations
+
+-- Pyramid Constructor
+public Pyramid: nat * Pyramid * Pyramid ==> Pyramid
+Pyramid(v,l,r) == 
+(val := v; left := l; right := r; return self)
+post val = v and left = l and right = r;
+
+
+functions 
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Pyramid
