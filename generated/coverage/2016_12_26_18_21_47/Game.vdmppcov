@@ -28,15 +28,15 @@ operations
     	dcl x : nat;
     	for counter = 1 to len deck do
     	(
-    			index  := MATH`rand(52) + 1;
-    			if index = 53 then index := 52;
+    			index  := MATH`rand(52);
     			x := deck (counter);
     			deck (counter) := deck (index);
     			deck (index) := x;
  					
 			)
     )
-    
+    post forall d in seq deck &
+ 		len [elems deck union {d}] = 2;
     
 
 
