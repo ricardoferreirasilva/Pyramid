@@ -4,6 +4,7 @@ instance variables
 		private deck: seq of nat;
 		inv len deck = 52;
 operations
+    -- create g := new Game();
 		public Game: () ==> Game
 		Game() == 
 		(
@@ -20,11 +21,11 @@ operations
 		public pop: () ==> nat
     pop() == return 2;
     
+    -- print g.shuffle();
     public shuffle: () ==> ()
     shuffle() == (
     	for counter = 1 to len deck do
-    			
- 					deck (counter) := 1;
+ 					deck (counter) := MATH`rand(52);
     );
     
 
