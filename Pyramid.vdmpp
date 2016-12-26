@@ -1,8 +1,8 @@
 class Pyramid
 instance variables
-								val: nat;
-                left: Pyramid;
-                right: Pyramid;       
+								private val: int;
+                left: [Pyramid];
+                right: [Pyramid];       
 types
 -- TODO Define types here
 values
@@ -10,7 +10,8 @@ values
 operations
 
 -- Pyramid Constructor
-public Pyramid: nat * Pyramid * Pyramid ==> Pyramid
+-- create p := new Pyramid(2,nil,nil)
+public Pyramid: int * [Pyramid] * [Pyramid] ==> Pyramid
 Pyramid(v,l,r) == 
 (val := v; left := l; right := r; return self)
 post val = v and left = l and right = r;
@@ -18,6 +19,10 @@ post val = v and left = l and right = r;
 
 functions 
 -- TODO Define functiones here
+public getValue: Pyramid -> int
+getValue(p) == p.val
+
+
 traces
 -- TODO Define Combinatorial Test Traces here
 end Pyramid
