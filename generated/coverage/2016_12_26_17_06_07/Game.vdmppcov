@@ -1,5 +1,4 @@
 class Game
-
 instance variables
 		private deck: seq of nat;
 		inv len deck = 52;
@@ -21,13 +20,7 @@ operations
     pop() == return 2;
     
     public shuffle: () ==> ()
-    shuffle() == (
-    	for counter = 1 to len deck do
-    			
- 					deck (counter) := 1;
-    );
-    
-
+    shuffle() == (deck := reverse deck);
 
 functions
 
