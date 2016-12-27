@@ -24,6 +24,20 @@ operations
 		(
 			return value;
 		);
+		-- Set a left child card
+		public setLeft: Card ==> ()
+		setLeft(l) ==
+		(
+			left := l;
+			return;
+		);
+		-- Set a right child card
+		public setRight: Card ==> ()
+		setRight(r) ==
+		(
+			right := r;
+			return;
+		);
 		
 		
 		
