@@ -2,6 +2,7 @@ class Game
 
 instance variables
 		private deck: seq of nat;
+		-- private cardDeck: seq of Card;
 		inv len deck = 52;
 operations
     -- create g := new Game();
@@ -14,12 +15,18 @@ operations
 			31,32,33,34,35,36,37,38,39,40,
 			41,42,43,44,45,46,47,48,49,50,
 			51,52];
+			shuffle();
+			-- cardDeck := [];
+    	-- for counter = 1 to len deck do
+    	-- (
+    	-- 	dcl c : Card;
+    	--	c := new Card(counter,nil,nil);
+    	-- 	cardDeck := cardDeck ^ [c];				
+			-- );
+			return self;
 			
-			return self
 		);
-		
-		public pop: () ==> nat
-    pop() == return 2;
+
     
     -- print g.shuffle();
     public shuffle: () ==> ()
@@ -34,8 +41,8 @@ operations
     			deck (counter) := deck (index);
     			deck (index) := x;
  					
-			)
-    )
+			);
+    );
     
     
 
