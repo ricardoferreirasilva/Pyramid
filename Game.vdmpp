@@ -2,6 +2,10 @@ class Game
 -- Pyramid has 28 cards.
 instance variables
 		private deck: seq of nat;
+		-- The Stock: The facedown pile on the bottom left. It is used to draw cards from and put on the Waste.
+		private stock: seq of nat;
+		-- The Waste: The faceup pile next to the Stock. Cards on the Waste can be matched to cards in the Pyramid to get rid of the Pyramid cards.
+		private waste: seq of nat;
 		-- private cardDeck: seq of Card;
 		inv len deck = 52;
 operations
@@ -16,6 +20,7 @@ operations
 			41,42,43,44,45,46,47,48,49,50,
 			51,52];
 			shuffle();
+			
 			-- cardDeck := [];
     	-- for counter = 1 to len deck do
     	-- (
@@ -46,7 +51,11 @@ operations
 			);
     );
     
+    -- TODO: op that draws 1 card from waste into the stock.
     
+    -- TODO: build Pyramid function (binary tree).
+    
+    -- TODO: function that picks two cards (one of them may be the top card on the waste).
 
 
 functions
