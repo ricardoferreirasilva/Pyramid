@@ -1,5 +1,5 @@
 class Game
-
+-- Pyramid has 28 cards.
 instance variables
 		private deck: seq of nat;
 		-- private cardDeck: seq of Card;
@@ -23,6 +23,8 @@ operations
     	--	c := new Card(counter,nil,nil);
     	-- 	cardDeck := cardDeck ^ [c];				
 			-- );
+			IO`print("Game started.\n");
+			IO`print("Deck shuffled.\n");
 			return self;
 			
 		);

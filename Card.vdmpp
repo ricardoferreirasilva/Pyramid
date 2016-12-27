@@ -1,6 +1,7 @@
 class Card
 
 instance variables
+		
 		private value: nat;
 		private left: [Card];
     private right: [Card];
