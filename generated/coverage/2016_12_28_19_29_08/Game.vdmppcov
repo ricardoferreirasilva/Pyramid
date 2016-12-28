@@ -98,7 +98,6 @@ operations
 			IO`println(pyramid(row)(col));
 			
 		);
-		--pre (pyramid(row+1)(col) = 0 and pyramid(row+1)(col+1) = 0) and row>0 and row < 8 and col>0 and col<=row; 
 		
 		-- Print the card name.
 		public printCard: nat ==> ()
@@ -108,7 +107,6 @@ operations
 			IO`print(rank ^ " of " ^ suit);
 		);
 		
-		-- Print pyramid
 		public printPyramid: () ==> ()
 		printPyramid() == (
 		for i=1 to 7 do (

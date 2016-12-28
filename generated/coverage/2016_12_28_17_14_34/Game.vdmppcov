@@ -14,8 +14,8 @@ instance variables
 		
 		
 		-- Card Information
-		public suits: seq of String := ["H", "D", "S", "C"];
-		public ranks: seq of String := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+		public suits: seq of String := ["Hearts", "Diamonds", "Spades", "Clubs"];
+		public ranks: seq of String := ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
 		
 		public pyramid: seq of seq of nat;
 		inv len deck = 52;
@@ -45,7 +45,6 @@ operations
 			IO`print("Game started.\n");
 			IO`print("Deck shuffled.\n");
 			createPyramid();
-			printPyramid();
 			return self;
 			
 		);
@@ -98,29 +97,16 @@ operations
 			IO`println(pyramid(row)(col));
 			
 		);
-		--pre (pyramid(row+1)(col) = 0 and pyramid(row+1)(col+1) = 0) and row>0 and row < 8 and col>0 and col<=row; 
 		
 		-- Print the card name.
 		public printCard: nat ==> ()
 		printCard(index) == (
 			dcl suit: String := suits (floor (index / 13) + 1);
 			dcl rank: String := ranks (floor (index rem 13) + 1);
-			IO`print(rank ^ " of " ^ suit);
+			IO`print(rank);
+			IO`print(" of ");
+			IO`print(suit);
 		);
-		
-		-- Print pyramid
-		public printPyramid: () ==> ()
-		printPyramid() == (
-		for i=1 to 7 do (
-			for j = 1 to len pyramid(i) do
-					(
-								--printCard(pyramid(i)(j));
-								IO`print(pyramid(i)(j));
-					);
-			IO`println("");
-		)
-		);
-		
 functions
 traces
 -- TODO Define Combinatorial Test Traces here

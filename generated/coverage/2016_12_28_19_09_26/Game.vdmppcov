@@ -98,26 +98,27 @@ operations
 			IO`println(pyramid(row)(col));
 			
 		);
-		--pre (pyramid(row+1)(col) = 0 and pyramid(row+1)(col+1) = 0) and row>0 and row < 8 and col>0 and col<=row; 
 		
 		-- Print the card name.
 		public printCard: nat ==> ()
 		printCard(index) == (
 			dcl suit: String := suits (floor (index / 13) + 1);
 			dcl rank: String := ranks (floor (index rem 13) + 1);
-			IO`print(rank ^ " of " ^ suit);
+			IO`print("|" ^ rank ^ " of " ^ suit ^ "|");
 		);
 		
-		-- Print pyramid
 		public printPyramid: () ==> ()
 		printPyramid() == (
 		for i=1 to 7 do (
+			IO`println("");
+--			for i2=0 to 7-i do (
+--				IO`print(" ");
+--			);
 			for j = 1 to len pyramid(i) do
 					(
-								--printCard(pyramid(i)(j));
-								IO`print(pyramid(i)(j));
+								printCard(pyramid(i)(j));
+								--IO`print(pyramid(i)(j));
 					);
-			IO`println("");
 		)
 		);
 		
