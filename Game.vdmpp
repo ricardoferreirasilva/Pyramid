@@ -1,5 +1,8 @@
 class Game
 -- Pyramid has 28 cards.
+types
+	public String = seq of char;
+
 instance variables
 		private deck: seq of nat;
 		private workingDeck: seq of nat;
@@ -9,6 +12,11 @@ instance variables
 		private waste: seq of nat;
 		-- private cardDeck: seq of Card;
 		
+		
+		-- Card Information
+		public suits: seq of String := ["Hearts", "Diamonds", "Spades", "Clubs"];
+		public ranks: seq of String := ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+		
 		public pyramid: seq of seq of nat;
 		inv len deck = 52;
 operations
@@ -16,7 +24,9 @@ operations
 		public Game: () ==> Game
 		Game() == 
 		(
+			waste := [];
 			pyramid := [];
+			stock := [];
 			deck := [1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,
 			21,22,23,24,25,26,27,28,29,30,
@@ -68,10 +78,36 @@ operations
 							workingDeck := tl workingDeck;
 					);
 					pyramid := pyramid ^ [s];
-			);	
+			);
+			pyramid := pyramid ^ [[0,0,0,0,0,0,0,0]];
+			stock := workingDeck;
+			workingDeck := [];
+		);
+		
+		-- Take a card from the stock and put on the top of waste.
+		-- TODO pre: len stock >= 0
+		public drawStock: () ==> ()
+		drawStock() == (
+			waste := waste ^ [hd stock];
+			stock := tl stock;
+		);
+		
+		public pickCard: nat * nat ==> ()
+		pickCard(row,col) == (
+			IO`println(pyramid(row)(col));
+			
+		);
+		
+		-- Print the card name.
+		public printCard: nat ==> ()
+		printCard(index) == (
+			dcl suit: String := suits (floor (index / 13) + 1);
+			dcl rank: String := ranks (floor (index rem 13) + 1);
+			IO`print(rank);
+			IO`print(" of ");
+			IO`print(suit);
 		);
 functions
-
 traces
 -- TODO Define Combinatorial Test Traces here
 end Game
