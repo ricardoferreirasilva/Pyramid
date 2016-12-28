@@ -7,8 +7,6 @@ instance variables
 		-- The Waste: The faceup pile next to the Stock. Cards on the Waste can be matched to cards in the Pyramid to get rid of the Pyramid cards.
 		private waste: seq of nat;
 		-- private cardDeck: seq of Card;
-		
-		public top: Card;
 		inv len deck = 52;
 operations
     -- create g := new Game();
@@ -32,7 +30,6 @@ operations
 			-- );
 			IO`print("Game started.\n");
 			IO`print("Deck shuffled.\n");
-			top := buildPyramid(deck,1,28);
 			return self;
 			
 		);
@@ -57,30 +54,10 @@ operations
     -- TODO: op that draws 1 card from waste into the stock.
     
     -- TODO: build Pyramid function (binary tree).
-    public buildPyramid: seq of nat * nat * nat ==> [Card]
-    buildPyramid(array,s,e) == (
-    	dcl mid  : nat;
-    	dcl root : Card;
-    	
-    	if s > e then return nil;
-    	
-    	mid := floor ((s+e)/2);
-    	root := new Card(array (mid),nil,nil);
-    	
-    	root.setRight(buildPyramid(array,s,mid-1));
-    	root.setLeft(buildPyramid(array,mid+1,e));
-    	return root;
-    );
     
     -- TODO: function that picks two cards (one of them may be the top card on the waste).
 
-		public searchCard: Card * nat ==> Card
-		searchCard(r,v) == (
-			if r.value = v then return r else (
-				if r.left <> nil then return searchCard(r.left,v);
-			 	if r.right <> nil then return searchCard(r.right,v);
-			);
-		);
+
 functions
 
 traces

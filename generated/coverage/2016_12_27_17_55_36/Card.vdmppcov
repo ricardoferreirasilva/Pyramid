@@ -2,9 +2,9 @@ class Card
 
 instance variables
 		
-		public value: nat;
-		public left: [Card];
-    public right: [Card];
+		private value: nat;
+		private left: [Card];
+    private right: [Card];
           
 operations
 		--Card Constructor ex: create p := new Card(1,nil,nil);
@@ -26,14 +26,14 @@ operations
 			return value;
 		);
 		-- Set a left child card
-		public setLeft: [Card] ==> ()
+		public setLeft: Card ==> ()
 		setLeft(l) ==
 		(
 			left := l;
 			return;
 		);
 		-- Set a right child card
-		public setRight: [Card] ==> ()
+		public setRight: Card ==> ()
 		setRight(r) ==
 		(
 			right := r;
