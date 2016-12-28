@@ -2,19 +2,21 @@ class Game
 -- Pyramid has 28 cards.
 instance variables
 		private deck: seq of nat;
+		private workingDeck: seq of nat;
 		-- The Stock: The facedown pile on the bottom left. It is used to draw cards from and put on the Waste.
 		private stock: seq of nat;
 		-- The Waste: The faceup pile next to the Stock. Cards on the Waste can be matched to cards in the Pyramid to get rid of the Pyramid cards.
 		private waste: seq of nat;
 		-- private cardDeck: seq of Card;
 		
-		public top: Card;
+		public pyramid: seq of seq of nat;
 		inv len deck = 52;
 operations
     -- create g := new Game();
 		public Game: () ==> Game
 		Game() == 
 		(
+			pyramid := [];
 			deck := [1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,
 			21,22,23,24,25,26,27,28,29,30,
@@ -32,7 +34,7 @@ operations
 			-- );
 			IO`print("Game started.\n");
 			IO`print("Deck shuffled.\n");
-			top := buildPyramid(deck,1,28);
+			createPyramid();
 			return self;
 			
 		);
@@ -54,32 +56,19 @@ operations
 			);
     );
     
-    -- TODO: op that draws 1 card from waste into the stock.
-    
-    -- TODO: build Pyramid function (binary tree).
-    public buildPyramid: seq of nat * nat * nat ==> [Card]
-    buildPyramid(array,s,e) == (
-    	dcl mid  : nat;
-    	dcl root : Card;
-    	
-    	if s > e then return nil;
-    	
-    	mid := floor ((s+e)/2);
-    	root := new Card(array (mid),nil,nil);
-    	
-    	root.setRight(buildPyramid(array,s,mid-1));
-    	root.setLeft(buildPyramid(array,mid+1,e));
-    	return root;
-    );
-    
-    -- TODO: function that picks two cards (one of them may be the top card on the waste).
-
-		public searchCard: Card * nat ==> Card
-		searchCard(r,v) == (
-			if r.value = v then return r else (
-				if r.left <> nil then return searchCard(r.left,v);
-			 	if r.right <> nil then return searchCard(r.right,v);
-			);
+		public createPyramid: () ==> ()
+		createPyramid() == (
+			workingDeck := deck;
+			for i = 1 to 7 do
+			(
+					dcl s : seq of nat := [];
+					for i2 = 1 to i do
+					(
+							s := s ^ [hd workingDeck];
+							workingDeck := tl workingDeck;
+					);
+					pyramid := pyramid ^ [s];
+			);	
 		);
 functions
 
