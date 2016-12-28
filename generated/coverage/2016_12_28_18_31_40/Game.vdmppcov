@@ -14,8 +14,8 @@ instance variables
 		
 		
 		-- Card Information
-		public suits: seq of String := ["H", "D", "S", "C"];
-		public ranks: seq of String := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+		public suits: seq of String := ["Hearts", "Diamonds", "Spades", "Clubs"];
+		public ranks: seq of String := ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
 		
 		public pyramid: seq of seq of nat;
 		inv len deck = 52;
@@ -45,6 +45,7 @@ operations
 			IO`print("Game started.\n");
 			IO`print("Deck shuffled.\n");
 			createPyramid();
+			printPyramid();
 			return self;
 			
 		);
@@ -98,29 +99,21 @@ operations
 			
 		);
 		
-		-- Print the card name. TODO PRE : 1 <= index <= 52;
+		-- Print the card name.
 		public printCard: nat ==> ()
 		printCard(index) == (
-			dcl suit: String;
-			dcl rank: String;
-			
-			dcl suitI: nat;
-			dcl rankI: nat;
-			
-			if(index rem 13 <> 0) then suitI := (floor (index / 13))+1 else suitI := floor (index / 13);
-			
-			if(index rem 13 = 0) then rankI := 13 else rankI := index rem 13;
-			
-			
-			suit := suits (suitI);
-			
-			
-			rank := ranks (rankI);
-			
-			
-			IO`print(rank);
-			IO`print(" of ");
-			IO`print(suit);
+			dcl suit: String := suits (floor (index / 13) + 1);
+			dcl rank: String := ranks (floor (index rem 13) + 1);
+			IO`print(rank ^ " of " ^ suit);
+		);
+		
+		public printPyramid: () ==> ()
+		printPyramid() == (
+		IO`print("   ");
+		printCard(pyramid(1)(1));
+		
+		
+		
 		);
 functions
 traces
