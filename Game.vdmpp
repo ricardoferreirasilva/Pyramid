@@ -121,8 +121,7 @@ operations
 			
 			
 			IO`print(rank);
-			IO`print(" of ");
-			IO`print(suit);
+			--IO`print(suit);
 		)
 		pre 1 <= index and index <= 52;
 		
@@ -133,8 +132,9 @@ operations
 			(
 				for i2 = 1 to i do
 				(
-						IO`print(pyramid (i)(i2));
+						if pyramid (i)(i2) <> 0 then printCard(pyramid (i)(i2));
 				);
+				IO`println("");
 			);
 		);
 		
