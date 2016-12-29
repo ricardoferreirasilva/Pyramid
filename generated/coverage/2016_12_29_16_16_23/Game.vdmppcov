@@ -65,9 +65,7 @@ operations
     			deck (index) := x;
  					
 			);
-    )
-    pre len deck = 52 -- pode-se adicionar como pre condição a soma dos valores do array que e o baralho e um numero constante tanto na pre como na pos
-    post len deck = 52;
+    );
     
     -- Creates the pyramid
 		public createPyramid: () ==> ()
@@ -86,9 +84,7 @@ operations
 			pyramid := pyramid ^ [[0,0,0,0,0,0,0,0]];
 			stock := workingDeck;
 			workingDeck := [];
-		)
-		pre pyramid = []
-		post pyramid <> []; -- pode ser fortalecido
+		);
 		
 		-- Take a card from the stock and put on the top of waste.
 		public drawStock: () ==> ()
@@ -180,21 +176,15 @@ operations
 		-- Removes a card from the pyramid (turns it into 0)
 		private removeCard: nat ==> ()
 		removeCard(c) == (
-		  
 			for i = 1 to 7 do
 			(
 					for i2 = 1 to i do
 					(
 							if pyramid (i) (i2) = c then pyramid (i) (i2) := 0;
-<<<<<<< HEAD
-							waste := waste ^ [c];
-=======
 							if pyramid (1) (1) = 0 then IO`println("Game won.")
->>>>>>> 61f33c46bfcb628b505bec1a4c544f7375a1dc8d
 					);
 			);
-		)
-		post len waste = len waste + 1; -- nao sei se isto devia de ser assim
+		);
 		
 functions
 traces
