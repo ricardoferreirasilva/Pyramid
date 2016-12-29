@@ -111,9 +111,9 @@ operations
 				
 				if b = "waste" then IO`print("get from waste")
 				else if b = nil then (
+						indexA := getCard(a);
 						if getCard(a) <> nil then
 						(
-								indexA := getCard(a);
 							 	if(indexA rem 13 = 0) then valueA := 13 else valueA := indexA rem 13;
 							 	if valueA = 13 then 
 							 	( 
@@ -180,7 +180,7 @@ operations
 			
 			dcl suitI: nat;
 			dcl rankI: nat;
-
+			
 			if(index rem 13 <> 0) then suitI := (floor (index / 13))+1 else suitI := floor (index / 13);
 			
 			if(index rem 13 = 0) then rankI := 13 else rankI := index rem 13;
@@ -193,8 +193,8 @@ operations
 			
 			
 			return (rank ^ suit);
-		);
-		--pre (index >=1 and index <= 52);
+		)
+		pre 1 <= index and index <= 52;
 		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
 		private getCard: String ==> [nat]
 		getCard(c) == (
@@ -202,11 +202,8 @@ operations
 			(
 					for i2 = 1 to i do
 					(
-							if pyramid (i) (i2) <> 0 then
-							(
-								dcl cardName: String := getCardName(pyramid (i) (i2));				
-								if c = cardName and pyramid (i+1) (i2) = 0 and pyramid (i+1) (i2+1) = 0 then return pyramid (i) (i2);
-							);
+							dcl cardName: String := getCardName(pyramid (i) (i2));				
+							if c = cardName and pyramid (i+1) (i2) = 0 and pyramid (i+1) (i2+1) = 0 then return pyramid (i) (i2);
 					);
 			);
 			return nil;
