@@ -131,6 +131,54 @@ operations
 				IO`println(pyramid (i));
 			);
 		);
+		
+		-- Selects two cards and checks values.
+		public selectCards: nat * nat ==> ()
+		selectCards(a,b) == (
+				dcl valueA: nat;
+				dcl valueB: nat;
+				
+				-- If both cards are valid
+				if getCard(a) <> nil and getCard(b) <> nil then 
+				(
+					if(a rem 13 = 0) then valueA := 13 else valueA := a rem 13;
+					if(b rem 13 = 0) then valueB := 13 else valueB := b rem 13;
+				
+					if valueA + valueB = 13 then ( 
+					removeCard(a);
+					removeCard(b);
+					IO`println("Sucess.");
+					)
+					else IO`println("Cannot do that.");
+					
+				) 
+				else IO`println("One ore two invalid cards.");
+		);
+		
+		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
+		public getCard: nat ==> [nat]
+		getCard(c) == (
+			for i = 1 to 7 do
+			(
+					for i2 = 1 to i do
+					(
+							if pyramid (i) (i2) = c and pyramid (i+1) (i2) = 0 and pyramid (i+1) (i2+1) = 0 then return c;
+					);
+			);
+			return nil;
+		);
+		-- Removes a card from the pyramid (turns it into 0)
+		private removeCard: nat ==> ()
+		removeCard(c) == (
+			for i = 1 to 7 do
+			(
+					for i2 = 1 to i do
+					(
+							if pyramid (i) (i2) = c then pyramid (i) (i2) := 0;
+					);
+			);
+		);
+		
 functions
 traces
 -- TODO Define Combinatorial Test Traces here
