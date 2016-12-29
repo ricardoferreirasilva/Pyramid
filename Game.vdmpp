@@ -100,9 +100,9 @@ operations
 		)
 		pre len stock >=0;
 		
-		-- Print the card name.
-		public printCard: nat ==> ()
-		printCard(index) == (
+		-- Gets card name
+		public getCardName: nat ==> String
+		getCardName(index) == (
 			dcl suit: String;
 			dcl rank: String;
 			
@@ -120,39 +120,39 @@ operations
 			rank := ranks (rankI);
 			
 			
-			IO`print(rank);
-			--IO`print(suit);
+			return (rank ^ suit);
 		)
 		pre 1 <= index and index <= 52;
 		
-		-- Prints the pyramid TODO: FIX BUGGY
+		-- Prints the pyramid
 		public printPyramid: () ==> ()
 		printPyramid() == (
 			for i = 1 to 8 do
 			(
 				for i2 = 1 to i do
 				(
-						if pyramid (i)(i2) <> 0 then printCard(pyramid (i)(i2));
+						if pyramid (i)(i2) <> 0 then IO`print(getCardName(pyramid (i)(i2))) else IO`print (00 );
 				);
 				IO`println("");
 			);
 		);
 		
 		-- Selects two cards and checks values.
-		public selectCards: nat * nat ==> ()
+		public selectCards: String * String ==> ()
 		selectCards(a,b) == (
 				dcl valueA: nat;
 				dcl valueB: nat;
-				
+				dcl indexA: nat := getCardString(a);
+				dcl indexB: nat := getCardString(b);
 				-- If both cards are valid
 				if getCard(a) <> nil and getCard(b) <> nil then 
 				(
-					if(a rem 13 = 0) then valueA := 13 else valueA := a rem 13;
-					if(b rem 13 = 0) then valueB := 13 else valueB := b rem 13;
+					if(indexA rem 13 = 0) then valueA := 13 else valueA := indexA rem 13;
+					if(indexB rem 13 = 0) then valueB := 13 else valueB := indexB rem 13;
 				
 					if valueA + valueB = 13 then ( 
-					removeCard(a);
-					removeCard(b);
+					removeCard(indexA);
+					removeCard(indexB);
 					IO`println("Sucess.")
 					)
 					else IO`println("Cannot do that.");
@@ -162,13 +162,14 @@ operations
 		);
 		
 		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
-		public getCard: nat ==> [nat]
+		private getCard: String ==> [nat]
 		getCard(c) == (
 			for i = 1 to 7 do
 			(
 					for i2 = 1 to i do
 					(
-							if pyramid (i) (i2) = c and pyramid (i+1) (i2) = 0 and pyramid (i+1) (i2+1) = 0 then return c;
+							dcl cardName: String := getCardName(pyramid (i) (i2));				
+							if c = cardName and pyramid (i+1) (i2) = 0 and pyramid (i+1) (i2+1) = 0 then return pyramid (i) (i2);
 					);
 			);
 			return nil;
