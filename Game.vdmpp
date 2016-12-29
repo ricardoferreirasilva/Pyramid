@@ -6,19 +6,18 @@ types
 instance variables
 		private deck: seq of nat;
 		private workingDeck: seq of nat;
-		
-		
 		-- The Stock: The facedown pile on the bottom left. It is used to draw cards from and put on the Waste.
 		public stock: seq of nat;
 		-- The Waste: The faceup pile next to the Stock. Cards on the Waste can be matched to cards in the Pyramid to get rid of the Pyramid cards.
-		public waste: seq of nat;
-		-- The Pyramid: Where the cards are stored
-		public pyramid: seq of seq of nat;
+		private waste: seq of nat;
+		-- private cardDeck: seq of Card;
+		
 		
 		-- Card Information
-		private suits: seq of String := ["H", "D", "S", "C"];
-		private ranks: seq of String := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+		public suits: seq of String := ["H", "D", "S", "C"];
+		public ranks: seq of String := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 		
+		public pyramid: seq of seq of nat;
 		inv len deck = 52;
 operations
     -- create g := new Game();
@@ -65,9 +64,10 @@ operations
     			deck (index) := x;
  					
 			);
-    );
+    )
+    pre len deck = 52 -- pode-se adicionar como pre condição a soma dos valores do array que e o baralho e um numero constante tanto na pre como na pos
+    post len deck = 52;
     
-    -- Creates the pyramid
 		public createPyramid: () ==> ()
 		createPyramid() == (
 			workingDeck := deck;
@@ -84,9 +84,12 @@ operations
 			pyramid := pyramid ^ [[0,0,0,0,0,0,0,0]];
 			stock := workingDeck;
 			workingDeck := [];
-		);
+		)
+		pre pyramid = []
+		post pyramid <> []; -- pode ser fortalecido
 		
 		-- Take a card from the stock and put on the top of waste.
+		-- TODO pre: len stock >= 0
 		public drawStock: () ==> ()
 		drawStock() == (
 			waste := waste ^ [hd stock];
@@ -97,12 +100,17 @@ operations
 		pickCard(row,col) == (
 			IO`println(pyramid(row)(col));
 			
-		)
-		pre len stock >=0;
+		);
 		
+<<<<<<< HEAD
 		-- Gets card name
 		public getCardName: nat ==> String
 		getCardName(index) == (
+=======
+		-- Print the card name. TODO PRE : 1 <= index <= 52;
+		public printCard: nat ==> ()
+		printCard(index) == (
+>>>>>>> origin/master
 			dcl suit: String;
 			dcl rank: String;
 			
@@ -120,20 +128,31 @@ operations
 			rank := ranks (rankI);
 			
 			
+<<<<<<< HEAD
 			return (rank ^ suit);
 		)
 		pre 1 <= index and index <= 52;
+=======
+			IO`print(rank);
+			IO`print(" of ");
+			IO`print(suit);
+		);
+>>>>>>> origin/master
 		
 		-- Prints the pyramid
 		public printPyramid: () ==> ()
 		printPyramid() == (
 			for i = 1 to 8 do
 			(
+<<<<<<< HEAD
 				for i2 = 1 to i do
 				(
 						if pyramid (i)(i2) <> 0 then IO`print(getCardName(pyramid (i)(i2))) else IO`print (00 );
 				);
 				IO`println("");
+=======
+				IO`println(pyramid (i));
+>>>>>>> origin/master
 			);
 		);
 		
@@ -151,9 +170,15 @@ operations
 					if(indexB rem 13 = 0) then valueB := 13 else valueB := indexB rem 13;
 				
 					if valueA + valueB = 13 then ( 
+<<<<<<< HEAD
 					removeCard(indexA);
 					removeCard(indexB);
 					IO`println("Sucess.")
+=======
+					removeCard(a);
+					removeCard(b);
+					IO`println("Sucess.");
+>>>>>>> origin/master
 					)
 					else IO`println("Cannot do that.");
 					
@@ -177,15 +202,17 @@ operations
 		-- Removes a card from the pyramid (turns it into 0)
 		private removeCard: nat ==> ()
 		removeCard(c) == (
+		  
 			for i = 1 to 7 do
 			(
 					for i2 = 1 to i do
 					(
 							if pyramid (i) (i2) = c then pyramid (i) (i2) := 0;
-							if pyramid (1) (1) = 0 then IO`println("Game won.")
+							waste := waste ^ [c];
 					);
 			);
-		);
+		)
+		post len waste = len waste + 1; -- nao sei se isto devia de ser assim
 		
 functions
 traces
