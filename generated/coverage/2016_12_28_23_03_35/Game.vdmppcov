@@ -122,15 +122,6 @@ operations
 			IO`print(" of ");
 			IO`print(suit);
 		);
-		
-		-- Prints the pyramid TODO: FIX BUGGY
-		public printPyramid: () ==> ()
-		printPyramid() == (
-			for i = 1 to 8 do
-			(
-				IO`println(pyramid (i));
-			);
-		);
 functions
 traces
 -- TODO Define Combinatorial Test Traces here

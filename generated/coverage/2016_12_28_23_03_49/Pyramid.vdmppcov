@@ -1,0 +1,28 @@
+class Pyramid
+instance variables
+								private val: int;
+                left: [Pyramid];
+                right: [Pyramid];       
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+operations
+
+-- Pyramid Constructor
+-- create p := new Pyramid(2,nil,nil)
+public Pyramid: int * [Pyramid] * [Pyramid] ==> Pyramid
+Pyramid(v,l,r) == 
+(val := v; left := l; right := r; return self)
+post val = v and left = l and right = r;
+
+
+functions 
+-- TODO Define functiones here
+public getValue: Pyramid -> int
+getValue(p) == p.val
+
+
+traces
+-- TODO Define Combinatorial Test Traces here
+end Pyramid
