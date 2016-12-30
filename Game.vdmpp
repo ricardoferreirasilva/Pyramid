@@ -49,7 +49,7 @@ operations
 			printPyramid();
 			return self;
 			
-		);
+		)post len deck = 52 and pyramid <> [] and stock <> [] and workingDeck=[];
 
     
     
@@ -70,21 +70,21 @@ operations
 			pyramid := pyramid ^ [[0,0,0,0,0,0,0,0]];
 			stock := workingDeck;
 			workingDeck := [];
-		);
+		)post pyramid <> [] and stock <> [] and workingDeck=[];
 		
 		-- Take a card from the stock and put on the top of waste.
 		public drawStock: () ==> ()
 		drawStock() == (
 			waste := waste ^ [hd stock];
 			stock := tl stock;
-		);
+		)pre len stock <> 0;
 		
 		public pickCard: nat * nat ==> ()
 		pickCard(row,col) == (
 			IO`println(pyramid(row)(col));
 			
 		)
-		pre len stock >=0;
+		pre len stock >=0 and row>0 and row>8 and col>0 and col>=row and pyramid(row+1)(col)=0 and pyramid(row+1)(col+1)=0;
 		
 		
 		-- Prints the pyramid
@@ -157,6 +157,7 @@ operations
 				);
 
 		);
+		
 		-- Shuffle deck
     private shuffle: () ==> ()
     shuffle() == (
@@ -193,7 +194,8 @@ operations
 			
 			
 			return (rank ^ suit);
-		);
+		);--post rank <> nil and suit <> nil;
+		
 		--pre (index >=1 and index <= 52);
 		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
 		private getCard: String ==> [nat]
@@ -211,6 +213,8 @@ operations
 			);
 			return nil;
 		);
+		 --post pyramid (i) (i2)>0 and pyramid (i) (i2)<52;
+		
 		-- Removes a card from the pyramid (turns it into 0)
 		private removeCard: nat ==> ()
 		removeCard(c) == (
@@ -219,10 +223,12 @@ operations
 					for i2 = 1 to i do
 					(
 							if pyramid (i) (i2) = c then pyramid (i) (i2) := 0;
-							if pyramid (1) (1) = 0 then IO`println("Game won.")
+							if pyramid (1) (1) = 0 then IO`println("Game won.");
+							return;
 					);
 			);
-		);
+		);--pre pyramid(i)(i2)<>nil;
+			--post pyramid(i)(i2)=0 and i<8 and i2<=i;
 		
 functions
 traces
