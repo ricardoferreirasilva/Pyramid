@@ -50,7 +50,7 @@ operations
 			return self;
 			
 		)post len deck = 52 and pyramid <> [] and stock <> [] and workingDeck=[];
-
+		
     
     
     -- Creates the pyramid
@@ -77,6 +77,7 @@ operations
 		drawStock() == (
 			waste := waste ^ [hd stock];
 			stock := tl stock;
+			printWaste();
 		)pre len stock <> 0;
 		
 		public pickCard: nat * nat ==> ()
@@ -99,7 +100,10 @@ operations
 				IO`println("");
 			);
 		);
-		
+		public printWaste: () ==> ()
+		printWaste() == (
+			IO`println(getCardName(hd (reverse waste)));
+		);
 		-- Selects two cards and checks values.
 		public selectCards: String * [String] ==> ()
 		selectCards(a,b) == (
@@ -109,7 +113,31 @@ operations
 				dcl indexA: nat;
 				dcl indexB: nat;
 				
-				if b = "waste" then IO`print("get from waste")
+				if b = "waste" then
+				(
+						indexA := getCard(a);
+						indexB := hd (reverse waste);
+					
+						
+						if getCard(a) <> nil and (hd (reverse waste)) > 0 then 
+						(
+							if(indexA rem 13 = 0) then valueA := 13 else valueA := indexA rem 13;
+							if(indexB rem 13 = 0) then valueB := 13 else valueB := indexB rem 13;
+						
+							if valueA + valueB = 13 then 
+							( 
+								removeCard(indexA);
+								waste := reverse (tl (reverse waste));
+								IO`println("Sucess.");
+								printPyramid();
+								return;
+							)
+							else IO`println("Cannot do that.");
+							return;
+						) 
+						else IO`println("One ore two invalid cards.");
+						return;
+				)
 				else if b = nil then (
 						if getCard(a) <> nil then
 						(
@@ -222,11 +250,17 @@ operations
 			(
 					for i2 = 1 to i do
 					(
-							if pyramid (i) (i2) = c then pyramid (i) (i2) := 0;
-							if pyramid (1) (1) = 0 then IO`println("Game won.");
+							if pyramid (i) (i2) = c then
+							(
+							pyramid (i) (i2) := 0;
 							return;
+							);
+							if pyramid (1) (1) = 0 then IO`println("Game won.");
+							
 					);
 			);
+			IO`println("Remove failed.");
+			return;
 		);--pre pyramid(i)(i2)<>nil;
 			--post pyramid(i)(i2)=0 and i<8 and i2<=i;
 		
