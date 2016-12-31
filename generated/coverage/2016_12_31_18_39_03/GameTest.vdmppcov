@@ -18,8 +18,6 @@ operations
 		public testGameMechanics: () ==> ()
 		testGameMechanics() == (
 		
-		IO`println("Teste Game Mechanics");
-		
 		gam.pyramid:=[[8], 
 		[31, 19], 
 		[6, 14, 2], 
@@ -99,8 +97,6 @@ operations
 		
 		public testPyramidMaking: () ==> ()
 		testPyramidMaking() == (
-		IO`println("Teste Pyramid Making");
-		
 		--testa que as piramides sao construidas de forma aleatoria
 		assertTrue(gam2.pyramid <> gam3.pyramid and gam3.stock <> gam2.stock);
 		assertTrue(gam2.waste = gam3.waste);

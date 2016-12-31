@@ -95,9 +95,9 @@ operations
 			(
 				for i2 = 1 to i do
 				(
-						if pyramid (i)(i2) <> 0 then(IO`print("|"); IO`print(getCardName(pyramid (i)(i2)))) else IO`print("|00");
+						if pyramid (i)(i2) <> 0 then IO`print(getCardName(pyramid (i)(i2))) else IO`print("00");
 				);
-				IO`println("|");
+				IO`println("");
 			);
 		);
 		public printWaste: () ==> ()
@@ -184,7 +184,7 @@ operations
 						return;
 				);
 
-		)pre getCard(a)>0 and getCard(a)<52 and (if b <> nil then (getCard(b)>0 and getCard(b)<52) else true);
+		);
 		
 		-- Shuffle deck
     private shuffle: () ==> ()
@@ -202,7 +202,7 @@ operations
 			);
     );
 		-- Gets card name
-		pure getCardName: nat ==> String
+		private getCardName: nat ==> String
 		getCardName(index) == (
 			dcl suit: String;
 			dcl rank: String;
@@ -226,7 +226,7 @@ operations
 		
 		--pre (index >=1 and index <= 52);
 		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
-		pure getCard: [String] ==> [nat]
+		private getCard: String ==> [nat]
 		getCard(c) == (
 			for i = 1 to 7 do
 			(
@@ -253,10 +253,9 @@ operations
 							if pyramid (i) (i2) = c then
 							(
 							pyramid (i) (i2) := 0;
-							if pyramid (1) (1) = 0 then IO`println("Game won.");
 							return;
 							);
-							
+							if pyramid (1) (1) = 0 then IO`println("Game won.");
 							
 					);
 			);
@@ -264,7 +263,7 @@ operations
 			return;
 		);--pre pyramid(i)(i2)<>nil;
 			--post pyramid(i)(i2)=0 and i<8 and i2<=i;
-			
+		
 functions
 traces
 -- TODO Define Combinatorial Test Traces here

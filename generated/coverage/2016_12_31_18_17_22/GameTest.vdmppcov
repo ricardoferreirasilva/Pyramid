@@ -6,8 +6,6 @@ types
 instance variables
 		
 		gam: Game := new Game();
-		gam2: Game := new Game();
-		gam3: Game := new Game();
 		
 operations
 
@@ -15,10 +13,8 @@ operations
 		assertTrue(cond) == return
 		pre cond;
 		
-		public testGameMechanics: () ==> ()
-		testGameMechanics() == (
-		
-		IO`println("Teste Game Mechanics");
+		public testSomething: () ==> ()
+		testSomething() == (
 		
 		gam.pyramid:=[[8], 
 		[31, 19], 
@@ -40,7 +36,7 @@ operations
 		assertTrue(len gam.waste = 1);
 		assertTrue(len gam.stock = 23);
 		
-		--Testa se a remocao de cartas (fazer uma jogada) funciona
+		--Testa se a remocao de cartas (fazer uma jogada funciona)
 		--Caso sucesso 1 : remover uma da piramide e uma do baralho
 		gam.selectCards("9C", "waste");
 		
@@ -71,47 +67,16 @@ operations
 		assertTrue(gam.pyramid(7)(3) = 18);
 		assertTrue(gam.pyramid(7)(4) = 40);
 		
-		--Caso fail 2: Uma das cartas nao existe na piramide nem no waste
-		gam.selectCards("5D",nil); --nil representa uma carta invalida neste ponto do jogo (ex: AH)
+		--Caso fail 2: Uma das cartas nao existe na piramide
+		gam.selectCards(nil,"5D"); --nil representa uma carta invalida neste ponto do jogo (ex: AH)
 		
 		assertTrue(gam.pyramid(7)(3) = 18);
-		
-		--Os outros fail cases sao variações destes casos em que acaba-se por testar o mesmo.
-		
-		gam.pyramid := [[13], 
-		[0, 0], 
-		[0, 0, 0], 
-		[0, 0, 0, 0], 
-		[0, 0, 0, 0, 0], 
-		[0, 0, 0, 0, 0, 0], 
-		[0, 0, 0, 0, 0, 0, 0], 
-		[0, 0, 0, 0, 0, 0, 0, 0]];
-		
-		
-		--Testa se o jogo foi concluido
-		gam.selectCards("KH",nil);
-		
-		assertTrue(gam.pyramid(1)(1) = 0);
-		
-		
-		);
-		
-		
-		public testPyramidMaking: () ==> ()
-		testPyramidMaking() == (
-		IO`println("Teste Pyramid Making");
-		
-		--testa que as piramides sao construidas de forma aleatoria
-		assertTrue(gam2.pyramid <> gam3.pyramid and gam3.stock <> gam2.stock);
-		assertTrue(gam2.waste = gam3.waste);
-		
 		);
 		
 		
 		public static main: () ==> ()
  		main() == (
-		new GameTest().testGameMechanics();
-		new GameTest().testPyramidMaking();
+		new GameTest().testSomething();
 	);
 		
 functions
