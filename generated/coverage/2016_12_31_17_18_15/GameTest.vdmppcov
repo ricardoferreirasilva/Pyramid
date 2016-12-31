@@ -1,0 +1,47 @@
+class GameTest
+-- Pyramid has 28 cards.
+types
+	public String = seq of char;
+
+instance variables
+		
+		gam: Game := new Game();
+		
+operations
+
+		private assertTrue: bool ==> ()
+		assertTrue(cond) == return
+		pre cond;
+		
+		public testSomething: () ==> ()
+		testSomething() == (
+		
+		gam.pyramid:=[[8], 
+		[31, 19], 
+		[6, 14, 2], 
+		[20, 12, 42, 37], 
+		[11, 33, 17, 46, 36], 
+		[10, 7, 34, 13, 15, 21], 
+		[48, 52, 18, 40, 30, 1, 23], 
+		[0, 0, 0, 0, 0, 0, 0, 0]];
+		
+		gam.stock:=[4, 3, 16, 38, 35, 50, 41, 49, 28, 26, 22, 24, 47, 27, 43, 9, 44, 45, 32, 5, 25, 39, 29, 51];
+		gam.waste:=[];
+		
+		gam.drawStock();
+		
+		assertTrue(gam.waste(1) = 4);
+		assertTrue(len gam.waste = 1);
+		assertTrue(len gam.stock = 23);
+		);
+		
+		
+		public static main: () ==> ()
+ 		main() == (
+		new GameTest().testSomething();
+	);
+		
+functions
+traces
+
+end GameTest

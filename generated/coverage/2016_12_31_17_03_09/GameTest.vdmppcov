@@ -1,0 +1,51 @@
+class GameTest
+-- Pyramid has 28 cards.
+types
+	public String = seq of char;
+
+instance variables
+		private deck: seq of nat;
+		private workingDeck: seq of nat;
+		private stock: seq of nat;
+		public waste: seq of nat;
+		public pyramid: seq of seq of nat;
+		
+		private suits: seq of String := ["H", "D", "S", "C"];
+		private ranks: seq of String := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+		
+		--inv len deck = 52;
+		
+operations
+
+		private assertTrue: bool ==> ()
+		assertTrue(cond) == return
+		pre cond;
+		
+		public testSomething: () ==> ()
+		testSomething() == (
+		
+		pyramid:=[[8], 
+		[31, 19], 
+		[6, 14, 2], 
+		[20, 12, 42, 37], 
+		[11, 33, 17, 46, 36], 
+		[10, 7, 34, 13, 15, 21], 
+		[48, 52, 18, 40, 30, 41, 4], 
+		[0, 0, 0, 0, 0, 0, 0, 0]];
+		
+		stock:=[23, 3, 16, 38, 35, 50, 1, 49, 28, 26, 22, 24, 47, 27, 43, 9, 44, 45, 32, 5, 25, 39, 29, 51];
+		waste:=[];
+		
+		
+		);
+		
+		
+		public static main: () ==> ()
+ 		main() == (
+		new GameTest().testSomething();
+	);
+		
+functions
+traces
+
+end GameTest

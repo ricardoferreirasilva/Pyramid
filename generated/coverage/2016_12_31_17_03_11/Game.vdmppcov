@@ -9,7 +9,7 @@ instance variables
 		
 		
 		-- The Stock: The facedown pile on the bottom left. It is used to draw cards from and put on the Waste.
-		public stock: seq of nat;
+		private stock: seq of nat;
 		-- The Waste: The faceup pile next to the Stock. Cards on the Waste can be matched to cards in the Pyramid to get rid of the Pyramid cards.
 		public waste: seq of nat;
 		-- The Pyramid: Where the cards are stored
@@ -184,7 +184,7 @@ operations
 						return;
 				);
 
-		)pre getCard(a)>0 and getCard(a)<52 and (if b <> nil then (getCard(b)>0 and getCard(b)<52) else true);
+		);
 		
 		-- Shuffle deck
     private shuffle: () ==> ()
@@ -202,7 +202,7 @@ operations
 			);
     );
 		-- Gets card name
-		pure getCardName: nat ==> String
+		private getCardName: nat ==> String
 		getCardName(index) == (
 			dcl suit: String;
 			dcl rank: String;
@@ -226,7 +226,7 @@ operations
 		
 		--pre (index >=1 and index <= 52);
 		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
-		pure getCard: [String] ==> [nat]
+		private getCard: String ==> [nat]
 		getCard(c) == (
 			for i = 1 to 7 do
 			(
@@ -263,7 +263,7 @@ operations
 			return;
 		);--pre pyramid(i)(i2)<>nil;
 			--post pyramid(i)(i2)=0 and i<8 and i2<=i;
-			
+		
 functions
 traces
 -- TODO Define Combinatorial Test Traces here
