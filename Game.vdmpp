@@ -78,7 +78,7 @@ operations
 			waste := waste ^ [hd stock];
 			stock := tl stock;
 			printWaste();
-		)pre len stock <> 0;
+		)pre len stock <> 0 post len waste > 0;
 		
 		public pickCard: nat * nat ==> ()
 		pickCard(row,col) == (
@@ -100,10 +100,12 @@ operations
 				IO`println("|");
 			);
 		);
+		
 		public printWaste: () ==> ()
 		printWaste() == (
 			IO`println(getCardName(hd (reverse waste)));
 		);
+		
 		-- Selects two cards and checks values.
 		public selectCards: String * [String] ==> ()
 		selectCards(a,b) == (
@@ -184,7 +186,7 @@ operations
 						return;
 				);
 
-		)pre getCard(a)>0 and getCard(a)<52 and (if b <> nil then (getCard(b)>0 and getCard(b)<52) else true);
+		)pre getCard(a) in set elems deck and (if b <> nil then (getCard(b) in set elems deck) else true);
 		
 		-- Shuffle deck
     private shuffle: () ==> ()
@@ -200,7 +202,18 @@ operations
     			deck (index) := x;
  					
 			);
+    )pre len deck = 52 and checkDeck() 
+     post len deck = 52 and checkDeck();
+    
+    -- Check if the deck contains all cards
+    pure checkDeck: () ==> bool
+    checkDeck() == (
+    	for i=1 to 52 do(
+    		if i not in set elems deck then return false;
+    	);
+    	return true;
     );
+    
 		-- Gets card name
 		pure getCardName: nat ==> String
 		getCardName(index) == (
@@ -222,9 +235,8 @@ operations
 			
 			
 			return (rank ^ suit);
-		);--post rank <> nil and suit <> nil;
+		)pre index in set elems deck;
 		
-		--pre (index >=1 and index <= 52);
 		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
 		pure getCard: [String] ==> [nat]
 		getCard(c) == (
@@ -262,8 +274,21 @@ operations
 			);
 			IO`println("Remove failed.");
 			return;
-		);--pre pyramid(i)(i2)<>nil;
-			--post pyramid(i)(i2)=0 and i<8 and i2<=i;
+		)pre c in set elems deck
+	  post checkRemove(c);
+			
+		-- Checks if the card has been removed
+		pure checkRemove: (nat) ==> bool
+		checkRemove(c) == (
+		 for i = 1 to 7 do (
+		 	for i2 = 1 to i do (
+		 		if pyramid (i)(i2) = c then(
+		 			if (pyramid (i)(i2) = 0) then return true else return false;
+		 		)
+		 	)
+			);
+			return false;
+		);
 			
 functions
 traces
