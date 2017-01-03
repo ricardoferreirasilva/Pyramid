@@ -186,7 +186,7 @@ operations
 						return;
 				);
 
-		)pre getCard(a)>0 and getCard(a)<52 and (if (b = nil or b = "waste") then true else (getCard(b)>0 and getCard(b)<52));
+		)pre getCard(a)>0 and getCard(a)<53 and (if (b = nil or b = "waste") then true else (getCard(b)>0 and getCard(b)<52));
 		
 		-- Shuffle deck
     private shuffle: () ==> ()
