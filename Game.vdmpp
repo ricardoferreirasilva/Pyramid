@@ -186,7 +186,7 @@ operations
 						return;
 				);
 
-		)pre getCard(a) in set elems deck and (if b <> nil then (getCard(b) in set elems deck) else true);
+		)pre getCard(a) in set elems deck and (if (b <> nil or b = "waste") then (getCard(b) in set elems deck) else true);
 		
 		-- Shuffle deck
     private shuffle: () ==> ()
@@ -282,12 +282,10 @@ operations
 		checkRemove(c) == (
 		 for i = 1 to 7 do (
 		 	for i2 = 1 to i do (
-		 		if pyramid (i)(i2) = c then(
-		 			if (pyramid (i)(i2) = 0) then return true else return false;
-		 		)
+		 		if pyramid (i)(i2) = c then return false;
 		 	)
 			);
-			return false;
+			return true;
 		);
 			
 functions
