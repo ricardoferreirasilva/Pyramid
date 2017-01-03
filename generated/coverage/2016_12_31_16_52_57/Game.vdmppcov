@@ -1,0 +1,270 @@
+class Game
+-- Pyramid has 28 cards.
+types
+	public String = seq of char;
+
+instance variables
+		private deck: seq of nat;
+		private workingDeck: seq of nat;
+		
+		
+		-- The Stock: The facedown pile on the bottom left. It is used to draw cards from and put on the Waste.
+		private stock: seq of nat;
+		-- The Waste: The faceup pile next to the Stock. Cards on the Waste can be matched to cards in the Pyramid to get rid of the Pyramid cards.
+		public waste: seq of nat;
+		-- The Pyramid: Where the cards are stored
+		public pyramid: seq of seq of nat;
+		
+		-- Card Information
+		private suits: seq of String := ["H", "D", "S", "C"];
+		private ranks: seq of String := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+		
+		inv len deck = 52;
+operations
+    -- create g := new Game();
+		public Game: () ==> Game
+		Game() == 
+		(
+			waste := [];
+			pyramid := [];
+			stock := [];
+			deck := [1,2,3,4,5,6,7,8,9,10,
+			11,12,13,14,15,16,17,18,19,20,
+			21,22,23,24,25,26,27,28,29,30,
+			31,32,33,34,35,36,37,38,39,40,
+			41,42,43,44,45,46,47,48,49,50,
+			51,52];
+			shuffle();
+			
+			-- cardDeck := [];
+    	-- for counter = 1 to len deck do
+    	-- (
+    	-- 	dcl c : Card;
+    	--	c := new Card(counter,nil,nil);
+    	-- 	cardDeck := cardDeck ^ [c];				
+			-- );
+			IO`println("Game started.");
+			IO`println("Deck shuffled.");
+			createPyramid();
+			printPyramid();
+			return self;
+			
+		)post len deck = 52 and pyramid <> [] and stock <> [] and workingDeck=[];
+		
+    
+    
+    -- Creates the pyramid
+		public createPyramid: () ==> ()
+		createPyramid() == (
+			workingDeck := deck;
+			for i = 1 to 7 do
+			(
+					dcl s : seq of nat := [];
+					for i2 = 1 to i do
+					(
+							s := s ^ [hd workingDeck];
+							workingDeck := tl workingDeck;
+					);
+					pyramid := pyramid ^ [s];
+			);
+			pyramid := pyramid ^ [[0,0,0,0,0,0,0,0]];
+			stock := workingDeck;
+			workingDeck := [];
+		)post pyramid <> [] and stock <> [] and workingDeck=[];
+		
+		-- Take a card from the stock and put on the top of waste.
+		public drawStock: () ==> ()
+		drawStock() == (
+			waste := waste ^ [hd stock];
+			stock := tl stock;
+			printWaste();
+		)pre len stock <> 0;
+		
+		public pickCard: nat * nat ==> ()
+		pickCard(row,col) == (
+			IO`println(pyramid(row)(col));
+			
+		)
+		pre len stock >=0 and row>0 and row>8 and col>0 and col>=row and pyramid(row+1)(col)=0 and pyramid(row+1)(col+1)=0;
+		
+		
+		-- Prints the pyramid
+		public printPyramid: () ==> ()
+		printPyramid() == (
+			for i = 1 to 7 do
+			(
+				for i2 = 1 to i do
+				(
+						if pyramid (i)(i2) <> 0 then IO`print(getCardName(pyramid (i)(i2))) else IO`print("00");
+				);
+				IO`println("");
+			);
+		);
+		public printWaste: () ==> ()
+		printWaste() == (
+			IO`println(getCardName(hd (reverse waste)));
+		);
+		-- Selects two cards and checks values.
+		public selectCards: String * [String] ==> ()
+		selectCards(a,b) == (
+				
+				dcl valueA: nat;
+				dcl valueB: nat;
+				dcl indexA: nat;
+				dcl indexB: nat;
+				
+				if b = "waste" then
+				(
+						indexA := getCard(a);
+						indexB := hd (reverse waste);
+					
+						
+						if getCard(a) <> nil and (hd (reverse waste)) > 0 then 
+						(
+							if(indexA rem 13 = 0) then valueA := 13 else valueA := indexA rem 13;
+							if(indexB rem 13 = 0) then valueB := 13 else valueB := indexB rem 13;
+						
+							if valueA + valueB = 13 then 
+							( 
+								removeCard(indexA);
+								waste := reverse (tl (reverse waste));
+								IO`println("Sucess.");
+								printPyramid();
+								return;
+							)
+							else IO`println("Cannot do that.");
+							return;
+						) 
+						else IO`println("One ore two invalid cards.");
+						return;
+				)
+				else if b = nil then (
+						if getCard(a) <> nil then
+						(
+								indexA := getCard(a);
+							 	if(indexA rem 13 = 0) then valueA := 13 else valueA := indexA rem 13;
+							 	if valueA = 13 then 
+							 	( 
+								removeCard(indexA);
+								IO`println("Sucess.");
+								printPyramid(); return;
+								)
+								else IO`println("Cannot do that."); return;
+						)
+						else
+						(
+							IO`println("One ore two invalid cards.");
+							return;
+						
+						);
+						return;
+				)
+				else
+				(
+						indexA := getCard(a);
+						indexB := getCard(b);
+					
+						
+						if getCard(a) <> nil and getCard(b) <> nil then 
+						(
+							if(indexA rem 13 = 0) then valueA := 13 else valueA := indexA rem 13;
+							if(indexB rem 13 = 0) then valueB := 13 else valueB := indexB rem 13;
+						
+							if valueA + valueB = 13 then ( 
+							removeCard(indexA);
+							removeCard(indexB);
+							IO`println("Sucess.");
+							printPyramid();
+							return;
+							)
+							else IO`println("Cannot do that.");
+							return;
+						) 
+						else IO`println("One ore two invalid cards.");
+						return;
+				);
+
+		)pre getCard(a)>0 and getCard(a)<52 and ((getCard(b)>0 and getCard(b)<52) or b=nil);
+		
+		-- Shuffle deck
+    private shuffle: () ==> ()
+    shuffle() == (
+    	dcl index  : nat;
+    	dcl x : nat;
+    	for counter = 1 to len deck do
+    	(
+    			index  := MATH`rand(52) + 1;
+    			if index = 53 then index := 52;
+    			x := deck (counter);
+    			deck (counter) := deck (index);
+    			deck (index) := x;
+ 					
+			);
+    );
+		-- Gets card name
+		pure getCardName: nat ==> String
+		getCardName(index) == (
+			dcl suit: String;
+			dcl rank: String;
+			
+			dcl suitI: nat;
+			dcl rankI: nat;
+
+			if(index rem 13 <> 0) then suitI := (floor (index / 13))+1 else suitI := floor (index / 13);
+			
+			if(index rem 13 = 0) then rankI := 13 else rankI := index rem 13;
+			
+			
+			suit := suits (suitI);
+			
+			
+			rank := ranks (rankI);
+			
+			
+			return (rank ^ suit);
+		);--post rank <> nil and suit <> nil;
+		
+		--pre (index >=1 and index <= 52);
+		-- Search for a card in the pyramid, return nil if not found in the pyramid or if still has valid childs.
+		pure getCard: [String] ==> [nat]
+		getCard(c) == (
+			for i = 1 to 7 do
+			(
+					for i2 = 1 to i do
+					(
+							if pyramid (i) (i2) <> 0 then
+							(
+								dcl cardName: String := getCardName(pyramid (i) (i2));				
+								if c = cardName and pyramid (i+1) (i2) = 0 and pyramid (i+1) (i2+1) = 0 then return pyramid (i) (i2);
+							);
+					);
+			);
+			return nil;
+		);
+		 --post pyramid (i) (i2)>0 and pyramid (i) (i2)<52;
+		
+		-- Removes a card from the pyramid (turns it into 0)
+		private removeCard: nat ==> ()
+		removeCard(c) == (
+			for i = 1 to 7 do
+			(
+					for i2 = 1 to i do
+					(
+							if pyramid (i) (i2) = c then
+							(
+							pyramid (i) (i2) := 0;
+							return;
+							);
+							if pyramid (1) (1) = 0 then IO`println("Game won.");
+							
+					);
+			);
+			IO`println("Remove failed.");
+			return;
+		);--pre pyramid(i)(i2)<>nil;
+			--post pyramid(i)(i2)=0 and i<8 and i2<=i;
+			
+functions
+traces
+-- TODO Define Combinatorial Test Traces here
+end Game
